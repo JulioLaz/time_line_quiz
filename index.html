@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-   <meta name="theme-color" content="#050a0e">
-   <meta name="mobile-web-app-capable" content="yes">
-   <meta name="apple-mobile-web-app-capable" content="yes">
-   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-   <meta name="apple-mobile-web-app-title" content="Chronos Quiz">
-   <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#050a0e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Chronos Quiz">
+<link rel="manifest" href="manifest.json">
 <title>CHRONOS QUIZ — Línea del Tiempo</title>
 <style>
 @font-face {
@@ -639,49 +639,104 @@ function mostrarAprobacion(score, totalPregs, difKey) {
 }
 
 // ── ENVÍO A TELEGRAM VÍA GOOGLE APPS SCRIPT ──
-async function enviarResultado() {
-  const btn = document.getElementById('btn-enviar');
-  const status = document.getElementById('envio-status');
-  btn.disabled = true;
-  status.style.color = 'var(--cyan)';
-  status.textContent = '⏳ Enviando...';
-
-  const dif  = DIFS[st.difKey];
+function buildPayload() {
+  const dif   = DIFS[st.difKey];
   const total = st.preguntas.length;
   const pct   = Math.round((st.cor / total) * 100);
   const aInfo = st.aprobacionInfo || {};
   const now   = new Date();
   const fecha = now.toLocaleDateString('es-AR') + ' ' + now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
-
-  const payload = {
-    nombre:    jugador.nombre + ' ' + jugador.apellido,
-    curso:     jugador.curso,
-    nivel:     dif.nombre,
-    score:     st.score,
-    pct_correctas: pct,
+  return {
+    nombre:         jugador.nombre + ' ' + jugador.apellido,
+    curso:          jugador.curso,
+    nivel:          dif.nombre,
+    score:          st.score,
+    pct_correctas:  pct,
     pct_aprobacion: aInfo.pctReal || 0,
-    aprobado:  aInfo.aprobado || false,
-    correctas: st.cor,
-    incorrectas: st.inc,
+    aprobado:       aInfo.aprobado || false,
+    correctas:      st.cor,
+    incorrectas:    st.inc,
     tiempo_agotado: st.tago,
-    racha_max: st.rachMax,
-    fecha:     fecha
+    racha_max:      st.rachMax,
+    fecha:          fecha
   };
+}
+
+async function postPayload(payload) {
+  await fetch(GAS_URL, {
+    method:  'POST',
+    mode:    'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload)
+  });
+}
+
+// Guardar en cola offline (localStorage)
+function encolarResultado(payload) {
+  const cola = JSON.parse(localStorage.getItem('chronos_cola') || '[]');
+  cola.push(payload);
+  localStorage.setItem('chronos_cola', JSON.stringify(cola));
+}
+
+// Intentar enviar cola pendiente al detectar conexión
+async function vaciarCola() {
+  const cola = JSON.parse(localStorage.getItem('chronos_cola') || '[]');
+  if (!cola.length) return;
+  const pendientes = [...cola];
+  localStorage.removeItem('chronos_cola');
+  for (const p of pendientes) {
+    try { await postPayload(p); } catch(e) { encolarResultado(p); }
+  }
+}
+
+// Escuchar cuando vuelve la conexión
+window.addEventListener('online', () => {
+  vaciarCola();
+  const s = document.getElementById('envio-status');
+  if (s && s.dataset.pendiente === '1') {
+    s.textContent = '🔄 Conexión restaurada — enviando...';
+    vaciarCola().then(() => {
+      s.style.color = 'var(--green)';
+      s.textContent = '✅ Resultado enviado al profesor.';
+      s.dataset.pendiente = '0';
+    });
+  }
+});
+
+async function enviarResultado() {
+  const btn    = document.getElementById('btn-enviar');
+  const status = document.getElementById('envio-status');
+  btn.disabled = true;
+  status.dataset.pendiente = '0';
+
+  const payload = buildPayload();
+
+  if (!navigator.onLine) {
+    // Sin conexión: encolar y avisar
+    encolarResultado(payload);
+    status.style.color   = 'var(--amber)';
+    status.textContent   = '📴 Sin conexión — resultado guardado. Se enviará automáticamente cuando te conectes.';
+    status.dataset.pendiente = '1';
+    btn.textContent      = '📴 EN COLA';
+    return;
+  }
+
+  status.style.color  = 'var(--cyan)';
+  status.textContent  = '⏳ Enviando...';
 
   try {
-    await fetch(GAS_URL, {
-      method: 'POST',
-      mode:   'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    await postPayload(payload);
     status.style.color = 'var(--green)';
     status.textContent = '✅ Resultado enviado al profesor.';
-    btn.textContent = '✅ ENVIADO';
+    btn.textContent    = '✅ ENVIADO';
+    // Aprovechar y vaciar cualquier cola pendiente
+    vaciarCola();
   } catch(e) {
-    status.style.color = 'var(--red)';
-    status.textContent = '❌ Error al enviar. Verificá tu conexión.';
-    btn.disabled = false;
+    encolarResultado(payload);
+    status.style.color   = 'var(--amber)';
+    status.textContent   = '📴 Error de red — resultado guardado. Se enviará automáticamente cuando te conectes.';
+    status.dataset.pendiente = '1';
+    btn.textContent      = '📴 EN COLA';
   }
 }
 
