@@ -4,7 +4,7 @@
   "description": "Quiz interactivo de Línea del Tiempo — Filosofía 6º Año — Modo 2 jugadores",
   "start_url": "/chronos_quiz/",
   "scope": "/chronos_quiz/",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#050a0e",
   "theme_color": "#050a0e",
   "orientation": "portrait",
