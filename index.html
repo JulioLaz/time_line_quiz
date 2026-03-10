@@ -759,6 +759,14 @@ mostrarResultado = function() {
 // Iniciar verificando registro
 checkRegistro();
 
+// ── SERVICE WORKER (offline PWA) ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .catch(e => console.log('SW error:', e));
+  });
+}
+
 </script>
 </body>
 </html>
