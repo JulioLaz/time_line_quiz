@@ -1,5 +1,11 @@
-const CACHE = 'chronos-quiz-v1';
-const FILES = ['./index.html', './manifest.json'];
+const CACHE = 'chronos-quiz-v2';
+const BASE  = '/chronos_quiz/';
+const FILES = [
+  BASE,
+  BASE + 'index.html',
+  BASE + 'manifest.json',
+  BASE + 'sw.js'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -19,6 +25,8 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request))
+    caches.match(e.request)
+      .then(cached => cached || caches.match(BASE + 'index.html'))
+      .then(res    => res    || fetch(e.request))
   );
 });
