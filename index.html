@@ -668,18 +668,21 @@ async function enviarResultado() {
   const fecha = now.toLocaleString('es-AR');
 
   const payload = {
-    nombre:    jugador.nombre + ' ' + jugador.apellido,
-    curso:     jugador.curso,
-    nivel:     dif.nombre,
-    score:     st.score,
-    pct_correctas: pct,
+    nombre:         jugador.nombre,
+    apellido:       jugador.apellido,
+    curso:          jugador.curso,
+    nivel:          dif.nombre,
+    score:          st.score,
+    pct_correctas:  pct,
     pct_aprobacion: aInfo.pctReal || 0,
-    aprobado:  aInfo.aprobado || false,
-    correctas: st.cor,
-    incorrectas: st.inc,
+    aprobado:       aInfo.aprobado || false,
+    correctas:      st.cor,
+    incorrectas:    st.inc,
     tiempo_agotado: st.tago,
-    racha_max: st.rachMax,
-    fecha:     fecha
+    racha_max:      st.rachMax,
+    fecha:          fecha,
+    unidad:         1,
+    tema:           1
   };
 
   try {
