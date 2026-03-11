@@ -71,7 +71,7 @@
 
 </style>
 <style>
-:root{--bg:#050a0e;--bg2:#0a1520;--bg3:#0f1e2e;--amber:#ffb300;--amber2:#ff8c00;--cyan:#00e5ff;--green:#00ff88;--red:#ff3b5c;--purple:#b44fff;--white:#e8f4fd;--dim:#4a6070;--eje-pensamiento:#d4a84b;--eje-poder:#d45555;--eje-tecnica:#5599d4;--eje-violencia:#a055d4;--eje-emancipacion:#55c47a;}
+:root{--bg:#050a0e;--bg2:#0a1520;--bg3:#0f1e2e;--amber:#ffb300;--amber2:#ff8c00;--cyan:#00e5ff;--green:#00ff88;--red:#ff3b5c;--purple:#b44fff;--white:#e8f4fd;--dim:#9aaebd;--eje-pensamiento:#d4a84b;--eje-poder:#d45555;--eje-tecnica:#5599d4;--eje-violencia:#a055d4;--eje-emancipacion:#55c47a;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--white);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden;position:relative;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:9999;}
@@ -86,11 +86,11 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 .intro-box{background:linear-gradient(135deg,rgba(10,21,32,.96),rgba(15,30,46,.96));border:1px solid rgba(0,229,255,.22);border-radius:8px;padding:22px 26px;max-width:560px;width:100%;margin:24px 0 0;box-shadow:0 0 28px rgba(0,229,255,.07);}
 .intro-box h3{font-family:'Orbitron',sans-serif;color:var(--amber);font-size:11px;letter-spacing:3px;margin-bottom:12px;border-bottom:1px solid rgba(255,179,0,.2);padding-bottom:7px;}
 .rol-cards{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px;}
-.rol-card{background:rgba(0,0,0,.4);border-radius:6px;padding:13px;border-left:3px solid;font-size:11px;line-height:1.8;}
+.rol-card{background:rgba(0,0,0,.4);border-radius:6px;padding:13px;border-left:3px solid;font-size:12px;line-height:1.8;}
 .rol-card.j1{border-color:var(--cyan);}.rol-card.j2{border-color:var(--amber);}
 .rol-title{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;margin-bottom:5px;}
 .j1 .rol-title{color:var(--cyan);}.j2 .rol-title{color:var(--amber);}
-.reglas{list-style:none;font-size:11px;line-height:2;color:rgba(232,244,253,.8);}
+.reglas{list-style:none;font-size:12px;line-height:2;color:rgba(232,244,253,.8);}
 .reglas li::before{content:'▶ ';color:var(--amber);}
 
 /* ── SELECTOR DIFICULTAD ── */
@@ -146,7 +146,7 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 .eje-tag{font-family:'Orbitron',sans-serif;font-size:8px;padding:3px 10px;border-radius:20px;border:1px solid;letter-spacing:2px;}
 .pregunta-num{font-size:10px;color:var(--dim);}
 .pregunta-tipo{font-size:9px;padding:3px 9px;border-radius:10px;background:rgba(255,255,255,.07);color:var(--dim);margin-left:auto;}
-.pregunta-texto{font-family:'Orbitron',sans-serif; letter-spacing: 2px; font-size:clamp(11px,3vw,16px);line-height:1.6;color:var(--white);margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(10,21,32,.85),rgba(15,30,46,.85));border-radius:8px;border-left:3px solid var(--amber);box-shadow:inset 0 0 18px rgba(0,0,0,.3);}
+.pregunta-texto{font-family:'Orbitron',sans-serif; letter-spacing: 1.5px; font-size:clamp(11px,3vw,16px);line-height:1.6;color:var(--white);margin-bottom:22px;padding:16px;background:linear-gradient(135deg,rgba(10,21,32,.85),rgba(15,30,46,.85));border-radius:8px;border-left:3px solid var(--amber);box-shadow:inset 0 0 18px rgba(0,0,0,.3);}
 .opciones-grid{display:grid;gap:9px;}
 .opcion-btn{background:rgba(10,21,32,.9);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:13px 16px;color:var(--white);font-family:'Share Tech Mono',monospace;font-size:clamp(11px,2.8vw,14px);cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:11px;line-height:1.4;}
 .opcion-btn:hover:not(:disabled){border-color:var(--amber);background:rgba(255,179,0,.07);transform:translateX(4px);}
@@ -156,7 +156,7 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 .opcion-btn.incorrecta{border-color:var(--red)!important;background:rgba(255,59,92,.1)!important;color:var(--red)!important;}
 .opcion-btn.incorrecta .opcion-key{background:var(--red);color:#000;}
 .opcion-btn:disabled{cursor:default;transform:none!important;}
-.feedback-box{margin-top:12px;padding:12px 15px;border-radius:6px;font-size:11px;line-height:1.7;display:none;animation:slideUp .3s ease;}
+.feedback-box{margin-top:12px;padding:12px 15px;border-radius:6px;font-size:12px;line-height:1.7;display:none;animation:slideUp .3s ease;}
 .feedback-box.correcto{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:var(--green);}
 .feedback-box.incorrecto{background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.3);color:var(--red);}
 .feedback-box.tiempo{background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);color:var(--amber2);}
@@ -211,8 +211,8 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
       <input class="reg-input" id="reg-apellido" type="text" placeholder="Tu apellido" autocomplete="family-name">
     </div>
     <div class="reg-field">
-      <label class="reg-label">▶ CURSO / DIVISIÓN</label>
-      <input class="reg-input" id="reg-curso" type="text" placeholder="Ej: 6° A" autocomplete="off">
+      <label class="reg-label">▶ CURSO</label>
+      <input class="reg-input" id="reg-curso" type="text" placeholder="Ej: 6" autocomplete="off">
     </div>
     <button class="btn-registrar" onclick="guardarRegistro()">▶ INGRESAR AL QUIZ</button>
   </div>
@@ -461,7 +461,7 @@ function mostrarPregunta(){
   if(p.eje!==prev){
     html+=`<div style="text-align:center;padding:16px 0 22px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:18px;">
       <div style="font-family:'Press Start 2P',monospace;font-size:clamp(9px,2.8vw,15px);color:${ei.color};text-shadow:0 0 10px ${ei.color};margin-bottom:5px;">${ei.emoji} ${ei.label}</div>
-      <div style="font-size:9px;color:var(--dim);letter-spacing:2px;">NUEVO EJE TEMÁTICO</div></div>`;
+      <div style="font-size:11px;color:var(--dim);letter-spacing:2px;">NUEVO EJE TEMÁTICO</div></div>`;
   }
   html+=`<div class="eje-header">
     <span class="eje-tag" style="color:${ei.color};border-color:${ei.color}">${ei.emoji} ${ei.label}</span>
@@ -519,14 +519,14 @@ function responder(idx){
     st.score+=pts;st.cor++;st.racha++;st.statsEjes[p.eje].cor++;
     if(st.racha>st.rachMax)st.rachMax=st.racha;
     document.getElementById('op'+idx).classList.add('correcta');
-    fb('correcto',`✅ ¡CORRECTO! +${pts} PTS ${bonus>1?'🔥 RACHA x'+bonus:''}<br><span style="opacity:.7">${p.dato}</span>`);
+    fb('correcto',`✅ ¡CORRECTO! +${pts} PTS ${bonus>1?'🔥 RACHA x'+bonus:''}<br><span style="opacity:.8; font-size:13px">${p.dato}</span>`);
     flash('green');
     if(st.racha>=3)combo(`🔥 RACHA x${st.racha}!`);
   }else{
     st.inc++;st.racha=0;
     document.getElementById('op'+idx).classList.add('incorrecta');
     marcarCor(st.correctaActual);
-    fb('incorrecto',`❌ Incorrecto. Era: <strong>${st.opcionesActuales[st.correctaActual]}</strong><br><span style="opacity:.7">${p.dato}</span>`);
+    fb('incorrecto',`❌ Incorrecto. Era: <strong>${st.opcionesActuales[st.correctaActual]}</strong><br><span style="opacity:.8; font-size:13px">${p.dato}</span>`);
     flash('red');
   }
   document.getElementById('hud-score').textContent=st.score.toLocaleString();
