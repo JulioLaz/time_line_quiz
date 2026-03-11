@@ -427,31 +427,11 @@ function mezclarPorEje(p){
 }
 function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);}
 
-function prepararOpciones(p){
-  let opciones=[...p.opciones];
-  let correcta=p.correcta;
-  if(p.tipo==='vf'){
-    opciones=['VERDADERO','FALSO','Ninguna es correcta','Todas son correctas'];
-    correcta=p.correcta; // 0=VERDADERO, 1=FALSO — las nuevas opciones nunca son correcta
-  }
-  const indices=opciones.map((_,i)=>i);
-  for(let i=indices.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [indices[i],indices[j]]=[indices[j],indices[i]];
-  }
-  const opcionesMezcladas=indices.map(i=>opciones[i]);
-  const nuevaCorrecta=indices.indexOf(correcta);
-  return{opciones:opcionesMezcladas,correcta:nuevaCorrecta};
-}
-
 function mostrarPregunta(){
   if(st.i>=st.preguntas.length){mostrarResultado();return;}
   const p=st.preguntas[st.i];
   const ei=EJES[p.eje];
   st.resp=false;
-  const prep=prepararOpciones(p);
-  st.opcionesActuales=prep.opciones;
-  st.correctaActual=prep.correcta;
   document.getElementById('hud-qnum').textContent=st.i+1;
   document.getElementById('hud-score').textContent=st.score.toLocaleString();
   actualizarProgreso();
@@ -466,11 +446,11 @@ function mostrarPregunta(){
   html+=`<div class="eje-header">
     <span class="eje-tag" style="color:${ei.color};border-color:${ei.color}">${ei.emoji} ${ei.label}</span>
     <span class="pregunta-num">Preg. ${st.i+1}</span>
-    <span class="pregunta-tipo">${p.tipo==='vf'?'V / F / ?':'Opción múltiple'}</span>
+    <span class="pregunta-tipo">${p.tipo==='vf'?'V / F':'Opción múltiple'}</span>
   </div>
   <div class="pregunta-texto" style="border-left-color:${ei.color}">${p.texto}</div>
   <div class="opciones-grid" id="og">`;
-  st.opcionesActuales.forEach((op,i)=>{
+  p.opciones.forEach((op,i)=>{
     html+=`<button class="opcion-btn" id="op${i}" onclick="responder(${i})"><span class="opcion-key">${letras[i]}</span>${op}</button>`;
   });
   html+=`</div><div class="feedback-box" id="fb"></div>
@@ -502,8 +482,8 @@ function actualizarTimer(){
 function tiempoAgotado(){
   st.resp=true;st.tago++;st.racha=0;
   const p=st.preguntas[st.i];
-  deshabilitar();marcarCor(st.correctaActual);
-  fb('tiempo',`⏱ TIEMPO AGOTADO — Correcta: <strong>${st.opcionesActuales[st.correctaActual]}</strong><br><span style="color:var(--dim)">${p.dato}</span>`);
+  deshabilitar();marcarCor(p.correcta);
+  fb('tiempo',`⏱ TIEMPO AGOTADO — Correcta: <strong>${p.opciones[p.correcta]}</strong><br><span style="color:var(--dim)">${p.dato}</span>`);
   flash('red');
   document.getElementById('bs').style.display='inline-block';
   st.statsEjes[p.eje].total++;
@@ -513,7 +493,7 @@ function responder(idx){
   const p=st.preguntas[st.i];
   st.statsEjes[p.eje].total++;
   deshabilitar();
-  if(idx===st.correctaActual){
+  if(idx===p.correcta){
     const bonus=st.racha>=2?2:1;
     const pts=Math.ceil(100+(st.tresto*3))*bonus;
     st.score+=pts;st.cor++;st.racha++;st.statsEjes[p.eje].cor++;
@@ -525,8 +505,8 @@ function responder(idx){
   }else{
     st.inc++;st.racha=0;
     document.getElementById('op'+idx).classList.add('incorrecta');
-    marcarCor(st.correctaActual);
-    fb('incorrecto',`❌ Incorrecto. Era: <strong>${st.opcionesActuales[st.correctaActual]}</strong><br><span style="opacity:.7">${p.dato}</span>`);
+    marcarCor(p.correcta);
+    fb('incorrecto',`❌ Incorrecto. Era: <strong>${p.opciones[p.correcta]}</strong><br><span style="opacity:.7">${p.dato}</span>`);
     flash('red');
   }
   document.getElementById('hud-score').textContent=st.score.toLocaleString();
