@@ -466,7 +466,7 @@ function mostrarPregunta(){
   html+=`<div class="eje-header">
     <span class="eje-tag" style="color:${ei.color};border-color:${ei.color}">${ei.emoji} ${ei.label}</span>
     <span class="pregunta-num">Preg. ${st.i+1}</span>
-    <span class="pregunta-tipo">${p.tipo==='vf'?'V / F / ?':'Opción múltiple'}</span>
+    <span class="pregunta-tipo">${p.tipo==='vf'?'V / Todas / F / Ninguna ?':'Opción múltiple'}</span>
   </div>
   <div class="pregunta-texto" style="border-left-color:${ei.color}">${p.texto}</div>
   <div class="opciones-grid" id="og">`;
