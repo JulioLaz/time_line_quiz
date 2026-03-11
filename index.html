@@ -665,11 +665,10 @@ async function enviarResultado() {
   const pct   = Math.round((st.cor / total) * 100);
   const aInfo = st.aprobacionInfo || {};
   const now   = new Date();
-  const fecha = now.toLocaleDateString('es-AR') + ' ' + now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+  const fecha = now.toLocaleString('es-AR');
 
   const payload = {
-    nombre:    jugador.nombre,
-    apellido:  jugador.apellido,
+    nombre:    jugador.nombre + ' ' + jugador.apellido,
     curso:     jugador.curso,
     nivel:     dif.nombre,
     score:     st.score,
@@ -680,9 +679,7 @@ async function enviarResultado() {
     incorrectas: st.inc,
     tiempo_agotado: st.tago,
     racha_max: st.rachMax,
-    fecha:     fecha,
-    unidad:    1,
-    tema:      1
+    fecha:     fecha
   };
 
   try {
