@@ -249,7 +249,7 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
       <div class="dif-card novato" onclick="seleccionarDif('novato',45)">
         <span class="dif-ok">✓ OK</span>
         <div class="dif-icon">🏛️</div>
-        <div class="dif-name">SOFISTA</div>
+        <div class="dif-name">APRENDIZ</div>
         <div class="dif-seg">45s</div>
         <div class="dif-label">por pregunta</div>
         <div class="dif-desc">Explorá la app con calma</div>
@@ -335,7 +335,7 @@ body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(r
 
 <script>
 const EJES={pensamiento:{label:'PENSAMIENTO',emoji:'🟡',color:'var(--eje-pensamiento)'},poder:{label:'PODER',emoji:'🔴',color:'var(--eje-poder)'},tecnica:{label:'TÉCNICA',emoji:'🔵',color:'var(--eje-tecnica)'},violencia:{label:'VIOLENCIA',emoji:'🟣',color:'var(--eje-violencia)'},emancipacion:{label:'EMANCIPACIÓN',emoji:'🟢',color:'var(--eje-emancipacion)'}};
-const DIFS={novato:{nombre:'SOFISTA',seg:45,color:'var(--green)',badge:'🏛️ SOFISTA'},guerra:{nombre:'FILÓSOFO',seg:35,color:'var(--amber)',badge:'⚡ FILÓSOFO'},sabio:{nombre:'SABIO',seg:25,color:'var(--red)',badge:'🔥 SABIO'}};
+const DIFS={novato:{nombre:'APRENDIZ',seg:45,color:'var(--green)',badge:'🏛️ APRENDIZ'},guerra:{nombre:'FILÓSOFO',seg:35,color:'var(--amber)',badge:'⚡ FILÓSOFO'},sabio:{nombre:'SABIO',seg:25,color:'var(--red)',badge:'🔥 SABIO'}};
 
 // ── BANCO DE PREGUNTAS (basadas en el contenido de la app Línea del Tiempo) ──
 const PREGUNTAS=[
@@ -671,7 +671,7 @@ async function enviarResultado() {
     nombre:         jugador.nombre,
     apellido:       jugador.apellido,
     curso:          jugador.curso,
-    nivel:          dif.nombre,
+    nivel:          st.difKey==='novato'?1:st.difKey==='guerra'?2:3,
     score:          st.score,
     pct_correctas:  pct,
     pct_aprobacion: aInfo.pctReal || 0,
